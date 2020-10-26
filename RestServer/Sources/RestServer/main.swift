@@ -1,5 +1,6 @@
 import Kitura
 import Cocoa
+import Foundation
 
 let router = Router()
 
@@ -32,12 +33,13 @@ router.post("ClaimService/add") {
     let body = request.body
     let jObj = body?.asJSON //JSON object
     if let jDict = jObj as? [String:String] {
-        if let T = jDict["title"],let D = jDict["date"],let S = jDict["isSolved"] {
-            let pObj = Claim(t: T, d: D, s: S)
-            ClaimDao().addClaim(pObj: pObj)
+        if let T = jDict["title"],
+            let D = jDict["date"]{
+            let cObj = Claim(UUID: UUID().uuidString, t: T, d: D, s: 0)
+            ClaimDao().addClaim(cObj: cObj)
         }
     }
-    response.send("The Person record was successfully inserted (via POST Method).")
+    response.send("The Claim record was successfully inserted (via POST Method).")
     next()
 }
 
